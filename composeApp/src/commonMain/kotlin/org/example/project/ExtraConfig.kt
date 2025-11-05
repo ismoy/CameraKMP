@@ -85,6 +85,7 @@ fun ExtraConfig(
                             takePhotoText = "change button text IOS default",
                             selectFromGalleryText = "change default text",
                             cameraCaptureConfig = CameraCaptureConfig(
+                               // includeExif = true, // enabled extraction EXIF data
                                 preference = CapturePhotoPreference.FAST, // faster no lag but can't use the flash
                                 // preference = CapturePhotoPreference.BALANCED lag balanced but can use the flash
                                 // preference = CapturePhotoPreference.QUALITY high quality capture slow can use the flash
@@ -137,9 +138,10 @@ fun ExtraConfig(
                             onPickerSheetIOSVisibleChange(false)
                         },
                         allowMultiple = true,
-                        mimeTypes = listOf(MimeType.IMAGE_ALL),
+                        mimeTypes = listOf(MimeType.IMAGE_ALL, MimeType.APPLICATION_PDF),
                         selectionLimit = 30, // maximum photos can selected the same time please no more 30 because your app can cash
                         enableCrop = false
+                       //includeExif = true, // enabled extraction EXIF data
                     )
                 }
                 // show list image selected to the Gallery
