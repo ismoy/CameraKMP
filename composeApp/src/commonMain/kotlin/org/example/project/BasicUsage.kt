@@ -49,13 +49,20 @@ fun BasicUsage(
     onResultImagePickerLauncherChange: (PhotoResult?) -> Unit
 ) {
     var isLoading by remember { mutableStateOf(false) }
-    var isLoadingContent by remember { mutableStateOf(false) }
+    var isWaitingForSelection by remember { mutableStateOf(false) }
+
+    LaunchedEffect(showGalleryPickerLauncher, showImagePickerLauncher) {
+        if (showGalleryPickerLauncher || showImagePickerLauncher) {
+            isWaitingForSelection = true
+        }
+    }
 
     LaunchedEffect(selectedGalleryImages.size, resultImagePickerLauncher) {
         if (selectedGalleryImages.isNotEmpty() || resultImagePickerLauncher != null) {
-            isLoadingContent = true
+            isWaitingForSelection = false
+            isLoading = true
             delay(300)
-            isLoadingContent = false
+            isLoading = false
         }
     }
 
@@ -72,31 +79,30 @@ fun BasicUsage(
         ) {
             when {
                 showImagePickerLauncher -> {
-                    isLoading = true
                     ImagePickerLauncher(
                         config = ImagePickerConfig(
                             onPhotoCaptured = { result ->
                                 onResultImagePickerLauncherChange(result)
                                 onShowImagePickerLauncherChange(false)
                                 onPickerSheetIOSVisibleChange(false)
-                                isLoading = false
                             },
                             onError = {
                                 onShowImagePickerLauncherChange(false)
                                 onPickerSheetIOSVisibleChange(false)
-                                isLoading = false
+                                isWaitingForSelection = false
                             },
                             onDismiss = {
                                 onShowImagePickerLauncherChange(false)
                                 onPickerSheetIOSVisibleChange(false)
-                                isLoading = false
+                                isWaitingForSelection = false
                             },
                             cameraCaptureConfig = CameraCaptureConfig(
+                                includeExif = true,
                                 permissionAndConfirmationConfig = PermissionAndConfirmationConfig(
                                     cancelButtonTextIOS = "Dismiss",
                                     onCancelPermissionConfigIOS = {
                                         onShowImagePickerLauncherChange(false)
-                                        isLoading = false
+                                        isWaitingForSelection = false
                                     }
                                 )
                             ),
@@ -104,34 +110,39 @@ fun BasicUsage(
                         )
                     )
                 }
+
                 showGalleryPickerLauncher -> {
-                    isLoading = true
                     GalleryPickerLauncher(
                         onPhotosSelected = { result ->
                             onSelectedGalleryImagesChange(result)
                             onShowGalleryPickerLauncherChange(false)
                             onPickerSheetIOSVisibleChange(false)
-                            isLoading = false
                         },
                         onError = {
                             onShowGalleryPickerLauncherChange(false)
                             onPickerSheetIOSVisibleChange(false)
-                            isLoading = false
+                            isWaitingForSelection = false
                         },
                         onDismiss = {
                             onShowGalleryPickerLauncherChange(false)
                             onPickerSheetIOSVisibleChange(false)
-                            isLoading = false
-                        },
-                        allowMultiple = true,
-                        cameraCaptureConfig = CameraCaptureConfig(
-                            compressionLevel = CompressionLevel.HIGH
-                        )
+                            isWaitingForSelection = false
+                        }
                     )
                 }
 
-                isLoadingContent -> {
-                    CircularProgressIndicator()
+                isWaitingForSelection || isLoading -> {
+                    Column(
+                        horizontalAlignment = Alignment.CenterHorizontally,
+                        modifier = Modifier.padding(16.dp)
+                    ) {
+                        CircularProgressIndicator()
+                        Text(
+                            text = if (isWaitingForSelection) "Seleccionando imágenes..." else "Cargando...",
+                            color = Color.Gray,
+                            modifier = Modifier.padding(top = 16.dp)
+                        )
+                    }
                 }
 
                 selectedGalleryImages.isNotEmpty() -> {
@@ -155,7 +166,12 @@ fun BasicUsage(
                                         modifier = Modifier.fillMaxSize()
                                     )
                                 } else {
-                                    CircularProgressIndicator()
+                                    Box(
+                                        modifier = Modifier.fillMaxSize(),
+                                        contentAlignment = Alignment.Center
+                                    ) {
+                                        CircularProgressIndicator()
+                                    }
                                 }
                             }
                         }
@@ -177,13 +193,14 @@ fun BasicUsage(
                                 modifier = Modifier.fillMaxSize()
                             )
                         } else {
-                            CircularProgressIndicator()
+                            Box(
+                                modifier = Modifier.fillMaxSize(),
+                                contentAlignment = Alignment.Center
+                            ) {
+                                CircularProgressIndicator()
+                            }
                         }
                     }
-                }
-
-                isLoading -> {
-                    CircularProgressIndicator()
                 }
 
                 else -> {

@@ -138,7 +138,7 @@ fun ExtraConfig(
                             onPickerSheetIOSVisibleChange(false)
                         },
                         allowMultiple = true,
-                        mimeTypes = listOf(MimeType.IMAGE_ALL, MimeType.APPLICATION_PDF),
+                        mimeTypes = listOf(MimeType.IMAGE_ALL),
                         selectionLimit = 30, // maximum photos can selected the same time please no more 30 because your app can cash
                         enableCrop = false
                        //includeExif = true, // enabled extraction EXIF data
