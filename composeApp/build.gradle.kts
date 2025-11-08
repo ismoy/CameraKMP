@@ -1,5 +1,7 @@
-import org.jetbrains.compose.desktop.application.dsl.TargetFormat
+@file:OptIn(ExperimentalWasmDsl::class)
+
 import org.jetbrains.kotlin.gradle.ExperimentalKotlinGradlePluginApi
+import org.jetbrains.kotlin.gradle.ExperimentalWasmDsl
 import org.jetbrains.kotlin.gradle.dsl.JvmTarget
 
 plugins {
@@ -16,7 +18,19 @@ kotlin {
             jvmTarget.set(JvmTarget.JVM_11)
         }
     }
-    
+    jvm()
+
+    js {
+        browser()
+        binaries.executable()
+    }
+
+    @OptIn(ExperimentalWasmDsl::class)
+    wasmJs {
+        browser()
+        binaries.executable()
+    }
+
     listOf(
         iosX64(),
         iosArm64(),
@@ -28,11 +42,13 @@ kotlin {
         }
     }
     
+    
     sourceSets {
         androidMain.dependencies {
             implementation(compose.preview)
             implementation(libs.androidx.activity.compose)
         }
+        
         commonMain.dependencies {
             implementation(compose.runtime)
             implementation(compose.foundation)
@@ -48,8 +64,15 @@ kotlin {
             implementation(libs.imagepickerkmp)
             implementation("org.jetbrains.compose.material:material-icons-extended:1.7.3")
         }
+
+        jsMain.dependencies {
+
+        }
+        
+        wasmJsMain.dependencies {
+        }
+        
         commonTest.dependencies {
-            implementation(libs.kotlin.test)
         }
     }
 }
@@ -83,5 +106,25 @@ android {
 
 dependencies {
     debugImplementation(compose.uiTooling)
+}
+
+compose.desktop {
+    application {
+        mainClass = "org.example.project.MainKt"
+        
+        nativeDistributions {
+            targetFormats(
+                org.jetbrains.compose.desktop.application.dsl.TargetFormat.Dmg,
+                org.jetbrains.compose.desktop.application.dsl.TargetFormat.Msi,
+                org.jetbrains.compose.desktop.application.dsl.TargetFormat.Deb
+            )
+            packageName = "CameraKMP"
+            packageVersion = "1.0.0"
+            
+            macOS {
+                bundleID = "org.example.project"
+            }
+        }
+    }
 }
 

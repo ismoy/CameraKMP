@@ -114,6 +114,8 @@ fun BasicUsage(
                 showGalleryPickerLauncher -> {
                     GalleryPickerLauncher(
                         onPhotosSelected = { result ->
+                            println("Selected images: $result")
+                            println("Selected images: ${result.count()}")
                             onSelectedGalleryImagesChange(result)
                             onShowGalleryPickerLauncherChange(false)
                             onPickerSheetIOSVisibleChange(false)
@@ -127,7 +129,9 @@ fun BasicUsage(
                             onShowGalleryPickerLauncherChange(false)
                             onPickerSheetIOSVisibleChange(false)
                             isWaitingForSelection = false
-                        }
+                        },
+                        allowMultiple = true,
+                        includeExif = true
                     )
                 }
 
