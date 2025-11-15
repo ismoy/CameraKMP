@@ -28,7 +28,6 @@ import io.github.ismoy.imagepickerkmp.domain.config.CameraCaptureConfig
 import io.github.ismoy.imagepickerkmp.domain.config.ImagePickerConfig
 import io.github.ismoy.imagepickerkmp.domain.config.PermissionAndConfirmationConfig
 import io.github.ismoy.imagepickerkmp.domain.extensions.loadPainter
-import io.github.ismoy.imagepickerkmp.domain.models.CompressionLevel
 import io.github.ismoy.imagepickerkmp.domain.models.GalleryPhotoResult
 import io.github.ismoy.imagepickerkmp.domain.models.PhotoResult
 import io.github.ismoy.imagepickerkmp.presentation.ui.components.GalleryPickerLauncher
@@ -114,8 +113,6 @@ fun BasicUsage(
                 showGalleryPickerLauncher -> {
                     GalleryPickerLauncher(
                         onPhotosSelected = { result ->
-                            println("Selected images: $result")
-                            println("Selected images: ${result.count()}")
                             onSelectedGalleryImagesChange(result)
                             onShowGalleryPickerLauncherChange(false)
                             onPickerSheetIOSVisibleChange(false)
@@ -130,8 +127,7 @@ fun BasicUsage(
                             onPickerSheetIOSVisibleChange(false)
                             isWaitingForSelection = false
                         },
-                        allowMultiple = true,
-                        includeExif = true
+                        allowMultiple = true
                     )
                 }
 

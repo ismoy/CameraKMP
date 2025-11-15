@@ -19,6 +19,7 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.unit.dp
 import io.github.ismoy.imagepickerkmp.domain.models.GalleryPhotoResult
 import io.github.ismoy.imagepickerkmp.domain.models.PhotoResult
+import org.example.project.ocrUsage.OCRUsageScreen
 
 @Composable
 fun CameraScreen(){
@@ -27,45 +28,75 @@ fun CameraScreen(){
     var isPickerSheetIOSVisible by remember { mutableStateOf(false) }
     var selectedGalleryImages by remember { mutableStateOf<List<GalleryPhotoResult>>(emptyList()) }
     var resultImagePickerLauncher by remember { mutableStateOf<PhotoResult?>(null) }
+    var isOCRActive by remember { mutableStateOf(false) }
+    var isInOCRScreen by remember { mutableStateOf(false) }
+
 
     Scaffold(
         bottomBar = {
-            if (!isPickerSheetIOSVisible){
-                Column(
-                    modifier = Modifier
-                        .fillMaxWidth()
-                        .padding(bottom = 32.dp),
-
-                    horizontalAlignment = Alignment.CenterHorizontally
-                ) {
+            Column(
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .padding(bottom = 32.dp),
+                horizontalAlignment = Alignment.CenterHorizontally
+            ) {
+                if (isOCRActive || isInOCRScreen) {
                     OutlinedButton(
                         onClick = {
-                            selectedGalleryImages = emptyList()
-                            resultImagePickerLauncher = null
-                            showImagePickerLauncher = true
+                            isOCRActive = true
                         },
                         modifier = Modifier
                             .fillMaxWidth()
                             .padding(horizontal = 16.dp)
                     ) {
-                        Text("Open Camera")
-                    }
-
-                    Spacer(modifier = Modifier.height(8.dp))
-
-                    OutlinedButton(
-                        onClick = {
-                            selectedGalleryImages = emptyList()
-                            resultImagePickerLauncher = null
-                            showGalleryPickerLauncher = true
-                        },
-                        modifier = Modifier
-                            .fillMaxWidth()
-                            .padding(horizontal = 16.dp)
-                    ) {
-                        Text("Select from Gallery", color = Color.Blue)
+                        Text("Test OCR", color = Color.Blue)
                     }
                     Spacer(modifier = Modifier.height(30.dp))
+                } else {
+                    if (!isPickerSheetIOSVisible) {
+                        OutlinedButton(
+                            onClick = {
+                                selectedGalleryImages = emptyList()
+                                resultImagePickerLauncher = null
+                                showImagePickerLauncher = true
+                            },
+                            modifier = Modifier
+                                .fillMaxWidth()
+                                .padding(horizontal = 16.dp)
+                        ) {
+                            Text("Open Camera")
+                        }
+
+                        Spacer(modifier = Modifier.height(8.dp))
+
+                        OutlinedButton(
+                            onClick = {
+                                selectedGalleryImages = emptyList()
+                                resultImagePickerLauncher = null
+                                showGalleryPickerLauncher = true
+                            },
+                            modifier = Modifier
+                                .fillMaxWidth()
+                                .padding(horizontal = 16.dp)
+                        ) {
+                            Text("Select from Gallery", color = Color.Blue)
+                        }
+
+                        Spacer(modifier = Modifier.height(8.dp))
+
+                        OutlinedButton(
+                            onClick = {
+                                isOCRActive = true
+                            },
+                            modifier = Modifier
+                                .fillMaxWidth()
+                                .padding(horizontal = 16.dp)
+                        ) {
+                            Text("Test OCR", color = Color.Blue)
+                        }
+                        
+                        Spacer(modifier = Modifier.height(30.dp))
+                    }
                 }
             }
         }
