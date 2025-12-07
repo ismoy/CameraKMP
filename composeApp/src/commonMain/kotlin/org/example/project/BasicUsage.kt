@@ -25,10 +25,12 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.unit.dp
 import io.github.ismoy.imagepickerkmp.domain.config.CameraCaptureConfig
+import io.github.ismoy.imagepickerkmp.domain.config.CropConfig
 import io.github.ismoy.imagepickerkmp.domain.config.ImagePickerConfig
 import io.github.ismoy.imagepickerkmp.domain.config.PermissionAndConfirmationConfig
 import io.github.ismoy.imagepickerkmp.domain.extensions.loadPainter
 import io.github.ismoy.imagepickerkmp.domain.models.GalleryPhotoResult
+import io.github.ismoy.imagepickerkmp.domain.models.MimeType
 import io.github.ismoy.imagepickerkmp.domain.models.PhotoResult
 import io.github.ismoy.imagepickerkmp.presentation.ui.components.GalleryPickerLauncher
 import io.github.ismoy.imagepickerkmp.presentation.ui.components.ImagePickerLauncher
@@ -113,6 +115,7 @@ fun BasicUsage(
                 showGalleryPickerLauncher -> {
                     GalleryPickerLauncher(
                         onPhotosSelected = { result ->
+                            println(result)
                             onSelectedGalleryImagesChange(result)
                             onShowGalleryPickerLauncherChange(false)
                             onPickerSheetIOSVisibleChange(false)
@@ -126,11 +129,9 @@ fun BasicUsage(
                             onShowGalleryPickerLauncherChange(false)
                             onPickerSheetIOSVisibleChange(false)
                             isWaitingForSelection = false
-                        },
-                        allowMultiple = true
+                        }
                     )
                 }
-
                 isWaitingForSelection || isLoading -> {
                     Column(
                         horizontalAlignment = Alignment.CenterHorizontally,

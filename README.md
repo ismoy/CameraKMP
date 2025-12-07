@@ -6,6 +6,40 @@ This project is a demo for the **ImagePickerKMP** library. It showcases how to l
 
 It includes practical examples of every available feature in the library, demonstrating how to integrate and customize them in a multiplatform app.
 
+---
+## Demos Android, iOS, Desktop y Web
+
+<table>
+  <tr>
+    <th>Cámara Android</th>
+    <th>Recorte Android</th>
+    <th>Cámara iOS</th>
+    <th>Recorte iOS</th>
+    <th>OCR</th>
+  </tr>
+  <tr>
+    <td><a href="https://raw.githubusercontent.com/ismoy/ImagePickerKMP/develop/docs/androidCameraDemo.gif"><img src="https://raw.githubusercontent.com/ismoy/ImagePickerKMP/develop/docs/androidCameraDemo.gif" alt="Demo Cámara Android" width="200"></a></td>
+    <td><a href="https://raw.githubusercontent.com/ismoy/ImagePickerKMP/develop/docs/androidCrop.gif"><img src="https://raw.githubusercontent.com/ismoy/ImagePickerKMP/develop/docs/androidCrop.gif" alt="Demo Recorte Android" width="200"></a></td>
+    <td><a href="https://raw.githubusercontent.com/ismoy/ImagePickerKMP/develop/docs/iosCameraDemo.gif"><img src="https://raw.githubusercontent.com/ismoy/ImagePickerKMP/develop/docs/iosCameraDemo.gif" alt="Demo Cámara iOS" width="200"></a></td>
+    <td><a href="https://raw.githubusercontent.com/ismoy/ImagePickerKMP/develop/docs/iosCrop.gif"><img src="https://raw.githubusercontent.com/ismoy/ImagePickerKMP/develop/docs/iosCrop.gif" alt="Demo Recorte iOS" width="200"></a></td>
+  </tr>
+  <tr>
+    <th>Desktop</th>
+    <th>Web</th>
+    <th colspan="2"></th>
+  </tr>
+  <tr>
+    <td><a href="https://raw.githubusercontent.com/ismoy/ImagePickerKMP/develop/docs/DesktopDemo.gif"><img src="https://raw.githubusercontent.com/ismoy/ImagePickerKMP/develop/docs/DesktopDemo.gif" alt="Demo Desktop" width="300"></a></td>
+    <td><a href="https://raw.githubusercontent.com/ismoy/ImagePickerKMP/develop/docs/demoWeb.gif"><img src="https://raw.githubusercontent.com/ismoy/ImagePickerKMP/develop/docs/demoWeb.gif" alt="Demo Web" width="300"></a></td>
+    <td colspan="2"></td>
+  </tr>
+
+<tr>
+    <td><a href="https://raw.githubusercontent.com/ismoy/CameraKMP/main/OCR_test.gif"><img src="https://raw.githubusercontent.com/ismoy/CameraKMP/main/OCR_test.gif" alt="Demo Desktop" width="600"></a></td>
+  </tr>
+</table>
+
+---
 ## What does this demo show?
 
 - How to select one or multiple images from the gallery.

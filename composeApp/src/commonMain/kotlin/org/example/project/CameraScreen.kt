@@ -101,7 +101,8 @@ fun CameraScreen(){
             }
         }
     ) { innerPadding ->
-        BasicUsage(
+        OCRUsageScreen(innerPadding, isOCRActive, onOCRActiveChange = { isOCRActive = it })
+       /* BasicUsage(
             innerPadding = innerPadding,
             showImagePickerLauncher = showImagePickerLauncher,
             onShowImagePickerLauncherChange = { showImagePickerLauncher = it },
@@ -112,7 +113,7 @@ fun CameraScreen(){
             onSelectedGalleryImagesChange = { selectedGalleryImages = it },
             resultImagePickerLauncher = resultImagePickerLauncher,
             onResultImagePickerLauncherChange = { resultImagePickerLauncher = it }
-        )
+        )*/
        /* CustomPermissionDialog(
             innerPadding = innerPadding,
             showImagePickerLauncher = showImagePickerLauncher,
