@@ -70,7 +70,7 @@ fun CustomPermissionDialog(
                             },
                             cameraCaptureConfig = CameraCaptureConfig(
                                 permissionAndConfirmationConfig = PermissionAndConfirmationConfig(
-                                    customDeniedDialog = { onRetry ->
+                                    customDeniedDialog = { onRetry,onDismiss ->
                                         DialogDeniedCameraPermission(
                                             title = " Permiso Necesario",
                                             message = "Necesitamos acceso a la cámara para tomar fotos",
@@ -81,7 +81,7 @@ fun CustomPermissionDialog(
                                             }
                                         )
                                     },
-                                    customSettingsDialog = { onOpenSettings ->
+                                    customSettingsDialog = { onOpenSettings,onDismiss ->
                                         CustomGoToSettingsDialog(
                                             title = " Ir a Configuración",
                                             message = "Ve a Configuración > Permisos > Cámara",

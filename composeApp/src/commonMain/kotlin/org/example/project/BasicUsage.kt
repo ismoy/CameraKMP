@@ -11,6 +11,7 @@ import androidx.compose.foundation.lazy.grid.GridCells
 import androidx.compose.foundation.lazy.grid.LazyVerticalGrid
 import androidx.compose.foundation.lazy.grid.items
 import androidx.compose.foundation.shape.RoundedCornerShape
+import androidx.compose.material3.BottomSheetDefaults
 import androidx.compose.material3.Card
 import androidx.compose.material3.CircularProgressIndicator
 import androidx.compose.material3.Text
@@ -24,11 +25,14 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.unit.dp
+import androidx.compose.ui.window.Dialog
 import io.github.ismoy.imagepickerkmp.domain.config.CameraCaptureConfig
 import io.github.ismoy.imagepickerkmp.domain.config.CropConfig
 import io.github.ismoy.imagepickerkmp.domain.config.ImagePickerConfig
 import io.github.ismoy.imagepickerkmp.domain.config.PermissionAndConfirmationConfig
+import io.github.ismoy.imagepickerkmp.domain.extensions.loadBytes
 import io.github.ismoy.imagepickerkmp.domain.extensions.loadPainter
+import io.github.ismoy.imagepickerkmp.domain.models.CompressionLevel
 import io.github.ismoy.imagepickerkmp.domain.models.GalleryPhotoResult
 import io.github.ismoy.imagepickerkmp.domain.models.MimeType
 import io.github.ismoy.imagepickerkmp.domain.models.PhotoResult
@@ -51,6 +55,10 @@ fun BasicUsage(
 ) {
     var isLoading by remember { mutableStateOf(false) }
     var isWaitingForSelection by remember { mutableStateOf(false) }
+    var showDialog by remember { mutableStateOf(false) }
+    var showDialogMessage by remember { mutableStateOf("") }
+
+
 
     LaunchedEffect(showGalleryPickerLauncher, showImagePickerLauncher) {
         if (showGalleryPickerLauncher || showImagePickerLauncher) {
@@ -62,10 +70,11 @@ fun BasicUsage(
         if (selectedGalleryImages.isNotEmpty() || resultImagePickerLauncher != null) {
             isWaitingForSelection = false
             isLoading = true
-            delay(300)
+            delay(50)
             isLoading = false
         }
     }
+
 
     Column(
         modifier = Modifier
@@ -78,11 +87,17 @@ fun BasicUsage(
                 .weight(1f),
             contentAlignment = Alignment.Center
         ) {
+            if (showDialog) {
+                Box(modifier = Modifier.fillMaxSize(), contentAlignment = Alignment.Center) {
+                    Text(showDialogMessage)
+                }
+            }
             when {
                 showImagePickerLauncher -> {
                     ImagePickerLauncher(
                         config = ImagePickerConfig(
                             onPhotoCaptured = { result ->
+                                println("resultadoFileSize ${result.fileSize}")
                                 onResultImagePickerLauncherChange(result)
                                 onShowImagePickerLauncherChange(false)
                                 onPickerSheetIOSVisibleChange(false)
@@ -94,42 +109,51 @@ fun BasicUsage(
                             },
                             onDismiss = {
                                 onShowImagePickerLauncherChange(false)
-                                onPickerSheetIOSVisibleChange(false)
-                                isWaitingForSelection = false
+
                             },
+                            enableCrop = true,
                             cameraCaptureConfig = CameraCaptureConfig(
-                                includeExif = true,
+                                includeExif = false,
                                 permissionAndConfirmationConfig = PermissionAndConfirmationConfig(
                                     cancelButtonTextIOS = "Dismiss",
                                     onCancelPermissionConfigIOS = {
                                         onShowImagePickerLauncherChange(false)
-                                        isWaitingForSelection = false
                                     }
                                 )
-                            ),
-                            directCameraLaunch = true
+                            )
                         )
                     )
+
                 }
 
                 showGalleryPickerLauncher -> {
                     GalleryPickerLauncher(
                         onPhotosSelected = { result ->
-                            println(result)
+                                println("resultadoFileSize $result")
                             onSelectedGalleryImagesChange(result)
                             onShowGalleryPickerLauncherChange(false)
                             onPickerSheetIOSVisibleChange(false)
                         },
-                        onError = {
+                        onError = {it->
                             onShowGalleryPickerLauncherChange(false)
                             onPickerSheetIOSVisibleChange(false)
                             isWaitingForSelection = false
+                            println("AVER: ${it.message}")
+                            showDialog=true
+                            showDialogMessage=it.message?:""
+
+
                         },
                         onDismiss = {
                             onShowGalleryPickerLauncherChange(false)
                             onPickerSheetIOSVisibleChange(false)
                             isWaitingForSelection = false
-                        }
+                            println("SwipeGallery dismiss")
+                        },
+                        includeExif = true,
+                        selectionLimit = 1,
+                        mimeTypeMismatchMessage = "Solo se permiten imágenes ${MimeType.toMimeTypeStrings()}",
+                        enableCrop = true
                     )
                 }
                 isWaitingForSelection || isLoading -> {

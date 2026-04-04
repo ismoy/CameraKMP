@@ -47,6 +47,13 @@ kotlin {
         androidMain.dependencies {
             implementation(compose.preview)
             implementation(libs.androidx.activity.compose)
+            // Coil GIF support (Android uses the native GIF decoder)
+            implementation(libs.coil.gif)
+            // Coil network engine for Android
+            implementation(libs.coil.network.okhttp)
+        }
+
+        iosMain.dependencies {
         }
         
         commonMain.dependencies {
@@ -60,9 +67,13 @@ kotlin {
             implementation(libs.androidx.lifecycle.runtimeCompose)
             // add coil
             implementation(libs.coil.compose)
+            implementation(libs.coil.network.ktor)
             // add ImagePickerKMP
             implementation(libs.imagepickerkmp)
             implementation("org.jetbrains.compose.material:material-icons-extended:1.7.3")
+            implementation(libs.belzSpeedScan)
+            // compose-imageloader: GIF animado en Android + iOS (via Skia)
+            implementation(libs.image.loader)
         }
 
         jsMain.dependencies {

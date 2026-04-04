@@ -78,12 +78,6 @@ fun ExtraConfig(
                                 onShowImagePickerLauncherChange(false)
                                 onPickerSheetIOSVisibleChange(false)
                             },
-                            directCameraLaunch = true, // launch camera directly in IOS
-                            enableCrop = false,
-                            cancelText = "change button text IOS default ",
-                            dialogTitle = "change dialog title IOS default",
-                            takePhotoText = "change button text IOS default",
-                            selectFromGalleryText = "change default text",
                             cameraCaptureConfig = CameraCaptureConfig(
                                // includeExif = true, // enabled extraction EXIF data
                                 preference = CapturePhotoPreference.FAST, // faster no lag but can't use the flash
