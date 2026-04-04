@@ -35,7 +35,7 @@ It includes practical examples of every available feature in the library, demons
   </tr>
 
 <tr>
-    <td><a href="https://raw.githubusercontent.com/ismoy/CameraKMP/main/OCR_test.gif"><img src="https://raw.githubusercontent.com/ismoy/CameraKMP/main/OCR_test.gif" alt="Demo Desktop" width="600"></a></td>
+    <td><a href="https://raw.githubusercontent.com/ismoy/CameraKMP/main/OCR_test.gif"><img src="https://raw.githubusercontent.com/ismoy/CameraKMP/main/OCR_test.gif" alt="Demo Desktop" width="300"></a></td>
   </tr>
 </table>
 
