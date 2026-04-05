@@ -72,8 +72,6 @@ kotlin {
             implementation(libs.imagepickerkmp)
             implementation("org.jetbrains.compose.material:material-icons-extended:1.7.3")
             implementation(libs.belzSpeedScan)
-            // compose-imageloader: GIF animado en Android + iOS (via Skia)
-            implementation(libs.image.loader)
         }
 
         jsMain.dependencies {

@@ -26,7 +26,7 @@ import androidx.compose.ui.unit.sp
 import org.example.project.ImagePickerRememberAPI.NewApiRememberScreen
 import org.jetbrains.compose.ui.tooling.preview.Preview
 
-private enum class AppScreen { Home, NewApi, Legacy }
+private enum class AppScreen { Home, NewApi, Legacy, ShowGif }
 
 @Composable
 @Preview
@@ -37,18 +37,20 @@ fun App() {
         when (screen) {
             AppScreen.Home -> HomeScreen(
                 onNewApi = { screen = AppScreen.NewApi },
-                onLegacy = { screen = AppScreen.Legacy }
+                onLegacy = { screen = AppScreen.Legacy },
+                onShowGif = { screen = AppScreen.ShowGif }
             )
             AppScreen.NewApi -> Scaffold(modifier = Modifier.fillMaxSize()) { innerPadding ->
                 NewApiRememberScreen(innerPadding = innerPadding, onBack = { screen = AppScreen.Home })
             }
             AppScreen.Legacy -> CameraScreen(onBack = { screen = AppScreen.Home })
+            AppScreen.ShowGif -> GifShowcaseScreen(onBack = { screen = AppScreen.Home })
         }
     }
 }
 
 @Composable
-private fun HomeScreen(onNewApi: () -> Unit, onLegacy: () -> Unit) {
+private fun HomeScreen(onNewApi: () -> Unit, onLegacy: () -> Unit, onShowGif: () -> Unit) {
     Scaffold(modifier = Modifier.fillMaxSize()) { innerPadding ->
         Column(
             modifier = Modifier
@@ -85,6 +87,14 @@ private fun HomeScreen(onNewApi: () -> Unit, onLegacy: () -> Unit) {
                 shape = RoundedCornerShape(14.dp)
             ) {
                 Text("Legacy API  →  CameraScreen", fontSize = 13.sp)
+            }
+            Spacer(modifier = Modifier.height(16.dp))
+            OutlinedButton(
+                onClick = onShowGif,
+                modifier = Modifier.fillMaxWidth().height(52.dp),
+                shape = RoundedCornerShape(14.dp)
+            ) {
+                Text("🎞️  GIF Picker  →  MimeType.IMAGE_GIF", fontSize = 13.sp)
             }
         }
     }
