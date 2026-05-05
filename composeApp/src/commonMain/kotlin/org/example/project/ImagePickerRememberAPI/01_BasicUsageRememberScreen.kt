@@ -22,8 +22,13 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.unit.dp
+import io.github.ismoy.imagepickerkmp.domain.config.CameraCaptureConfig
 import io.github.ismoy.imagepickerkmp.domain.config.GalleryConfig
+import io.github.ismoy.imagepickerkmp.domain.config.PermissionAndConfirmationConfig
+import io.github.ismoy.imagepickerkmp.domain.extensions.absolutePath
+import io.github.ismoy.imagepickerkmp.domain.models.CameraScaleType
 import io.github.ismoy.imagepickerkmp.features.imagepicker.config.ImagePickerKMPConfig
 import io.github.ismoy.imagepickerkmp.features.imagepicker.model.ImagePickerResult
 import io.github.ismoy.imagepickerkmp.features.imagepicker.ui.rememberImagePickerKMP
@@ -39,6 +44,12 @@ fun BasicUsageRememberScreen(onBack: () -> Unit) {
                 allowMultiple = true,
                 selectionLimit = 20,
                 includeExif = true
+            ),
+            cameraCaptureConfig = CameraCaptureConfig(
+                cameraScaleType = CameraScaleType.FILL_CENTER,
+                permissionAndConfirmationConfig = PermissionAndConfirmationConfig(
+                    confirmationImageContentScale = ContentScale.Fit
+                )
             )
         )
     )
@@ -97,7 +108,6 @@ fun BasicUsageRememberScreen(onBack: () -> Unit) {
                 contentAlignment = Alignment.Center
             ) {
                 when (result) {
-
                     is ImagePickerResult.Loading -> {
                         Column(
                             horizontalAlignment = Alignment.CenterHorizontally,
@@ -114,7 +124,10 @@ fun BasicUsageRememberScreen(onBack: () -> Unit) {
 
                     is ImagePickerResult.Success -> {
                         val photos = result.photos
-                        println("Resultado: $photos")
+                        photos.forEach {
+                            println("AbsolutPath ${it.absolutePath}")
+
+                        }
                         if (photos.size == 1) {
                             CameraResultCard(photo = photos.first())
                         } else {
